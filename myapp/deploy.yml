@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure app directory exists
       file:
-        path: /home/jenkins/apps
+        path: /var/lib/jenkins/workspace/pgm6/apps
         state: directory
         owner: jenkins
         group: jenkins
@@ -14,7 +14,9 @@
     - name: Copy JAR file
       copy:
         src: /var/lib/jenkins/workspace/pgm6/myapp/target/myapp-1.0-SNAPSHOT.jar
-        dest: /home/jenkins/apps/myapp-1.0-SNAPSHOT.jar
+        dest: /var/lib/jenkins/workspace/pgm6/apps/myapp-1.0-SNAPSHOT.jar
 
     - name: Run application
-      shell: nohup java -jar /home/jenkins/apps/myapp-1.0-SNAPSHOT.jar &
+      shell: nohup java -jar /var/lib/jenkins/workspace/pgm6/apps/myapp-1.0-SNAPSHOT.jar &
+      args:
+        chdir: /var/lib/jenkins/workspace/pgm6/apps
