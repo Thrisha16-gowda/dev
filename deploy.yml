@@ -1,6 +1,6 @@
 
 - name: Deploy myapp to server
-  hosts: app_servers
+  hosts: web
   become: yes
 
   tasks:
