@@ -1,22 +1,17 @@
----
-- name: Deploy myapp to server
-  hosts: app_servers
+- name: Deploy Maven Artifact
+  hosts: web
   become: yes
   tasks:
-    - name: Copy application JAR to server
-      copy:
-        src: target/myapp-1.0-SNAPSHOT.jar
-        dest: /opt/myapp/myapp.jar
-        mode: '0755'
-
-    - name: Ensure application directory exists
+    - name: Ensure apps directory exists
       file:
-        path: /opt/myapp
+        path: /var/lib/jenkins/workspace/ttttttt/apps
         state: directory
         mode: '0755'
 
-    - name: Restart myapp service
-      systemd:
-        name: myapp
-        state: restarted
-        enabled: yes
+    - name: Copy JAR file
+      copy:
+        src: /var/lib/jenkins/workspace/ttttttt/myapp/target/myapp-1.0-SNAPSHOT.jar
+        dest: /var/lib/jenkins/workspace/ttttttt/apps/myapp-1.0-SNAPSHOT.jar
+
+    - name: Run application
+      shell: nohup java -jar /var/lib/jenkins/workspace/ttttttt/apps/myapp-1.0-SNAPSHOT.jar &
