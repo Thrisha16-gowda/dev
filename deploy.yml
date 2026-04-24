@@ -1,25 +1,17 @@
 - name: Deploy Maven Artifact
-  hosts: app_servers
-  become: no
-
+  hosts: web
+  become: yes
   tasks:
-    - name: Ensure app directory exists
+    - name: Ensure apps directory exists
       file:
         path: /var/lib/jenkins/workspace/ttttttt/apps
         state: directory
-        owner: jenkins
-        group: jenkins
         mode: '0755'
 
     - name: Copy JAR file
       copy:
         src: /var/lib/jenkins/workspace/ttttttt/myapp/target/myapp-1.0-SNAPSHOT.jar
         dest: /var/lib/jenkins/workspace/ttttttt/apps/myapp-1.0-SNAPSHOT.jar
-        owner: jenkins
-        group: jenkins
-        mode: '0644'
 
     - name: Run application
       shell: nohup java -jar /var/lib/jenkins/workspace/ttttttt/apps/myapp-1.0-SNAPSHOT.jar &
-      args:
-        chdir: /var/lib/jenkins/workspace/ttttttt/apps
